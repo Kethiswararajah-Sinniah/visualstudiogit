@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music Video Showcase</title>
+    <style>
+        body {
+            background: #0f0f0f;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title {
+            margin: 30px 0;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        .video-wrapper {
+            position: relative;
+            margin: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .video-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .particles {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 107, 107, 0.8);
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+            to { text-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Bohemian Rhapsody - Queen</h1>
+    
+    <div class="video-wrapper">
+        <div class="particles" id="particles"></div>
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/fJ9rUzIMcZQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <script>
+        // Create rotating particles around video
+        const particlesContainer = document.getElementById('particles');
+        const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d'];
+        
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.background = colors[i % 3];
+            particle.style.animationDelay = `${i * 0.1}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Add interactive mouse effect
+        document.querySelector('.video-wrapper').addEventListener('mousemove', (e) => {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                const speed = 0.5;
+                const x = (e.clientX - window.innerWidth/2) * speed;
+                const y = (e.clientY - window.innerHeight/2) * speed;
+                particle.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
